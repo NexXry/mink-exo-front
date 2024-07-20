@@ -5,7 +5,9 @@ import {FwbNavbar, FwbNavbarCollapse, FwbNavbarLink} from "flowbite-vue";
 <template>
   <fwb-navbar>
     <template #logo>
-      <img class="size-20" alt="Vue logo" src="../assets/img/icon.svg"/>
+      <RouterLink to="/">
+        <img class="size-20" alt="Vue logo" src="../assets/img/icon.svg"/>
+      </RouterLink>
     </template>
     <template #default="{isShowMenu}">
       <fwb-navbar-collapse :is-show-menu="isShowMenu">
