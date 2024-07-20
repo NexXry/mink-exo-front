@@ -1,5 +1,5 @@
 <script setup>
-import {FwbHeading, FwbSpinner} from "flowbite-vue";
+import {FwbAlert, FwbHeading, FwbSpinner} from "flowbite-vue";
 import api from "@/Api/api.js";
 import {computed, onMounted, ref} from "vue";
 import AnimalFilter from "@/components/AninalFilter.vue";
@@ -13,6 +13,7 @@ const query = ref('')
 const species = ref('')
 const race = ref('')
 const isLoading = ref(true)
+const isError = ref(false)
 
 const getData = async () => {
   try {
@@ -41,6 +42,8 @@ const getData = async () => {
     })
   } catch (error) {
     toast.error('Une erreur est survenue')
+    isLoading.value = false
+    isError.value = true
     console.error(error)
   }
 }
@@ -81,12 +84,17 @@ const filteredAnimals = computed(() => {
           :species="animal.species.name"
           :race="animal.race.name"
       />
-      <div v-if="filteredAnimals.length === 0 && !isLoading" class="text-center">
+      <div v-if="filteredAnimals.length === 0 && !isLoading && !isError" class="text-center">
         <p>Aucun animal ne correspond à votre recherche</p>
       </div>
     </div>
     <div v-if="isLoading" class="flex justify-center my-20">
       <fwb-spinner size="12"/>
+    </div>
+    <div v-if="isError" class="flex justify-center my-20">
+      <fwb-alert type="danger">
+        Une erreur est survenue
+      </fwb-alert>
     </div>
   </section>
 </template>
