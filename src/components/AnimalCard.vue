@@ -5,8 +5,8 @@ const props = defineProps({
   name: String,
   image: String,
   description: String,
-  age: String,
-  price: String,
+  age: Number,
+  price: Number,
   species: String,
   race: String,
 })
@@ -14,8 +14,6 @@ const props = defineProps({
 
 <template>
   <fwb-card
-      v-for="n in 9"
-      :key="n"
       img-alt="Desk"
       :img-src="image"
       variant="image"
