@@ -4,8 +4,8 @@ import AnimalList from "@/components/Section/AnimalList.vue";
 </script>
 
 <template>
-  <Hero/>
-  <AnimalList/>
+  <hero/>
+  <animal-list/>
 </template>
 
 <style scoped>
