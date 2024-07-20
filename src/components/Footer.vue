@@ -3,11 +3,12 @@ import {FwbFooter, FwbFooterCopyright, FwbFooterLink, FwbFooterLinkGroup} from "
 </script>
 
 <template>
-  <fwb-footer>
+  <fwb-footer >
     <fwb-footer-copyright
+        class="flex justify-center"
         copyright-message="LA FERME"
     />
-    <fwb-footer-link-group>
+    <fwb-footer-link-group class="flex justify-center">
       <fwb-footer-link>
         <RouterLink to="/">Accueil</RouterLink>
       </fwb-footer-link>

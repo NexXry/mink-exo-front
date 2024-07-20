@@ -1,9 +1,12 @@
 <script setup>
 
+import Hero from "@/components/Section/Hero.vue";
+import Contact from "@/components/Section/Contact.vue";
 </script>
 
 <template>
-  <h1>Contact</h1>
+  <hero/>
+  <contact/>
 </template>
 
 <style scoped>

@@ -2,7 +2,7 @@
 import {FwbCard, FwbHeading, FwbPagination} from "flowbite-vue";
 import AnimalCard from "@/components/AnimalCard.vue";
 import {computed, ref} from "vue";
-import AminalFilter from "@/components/AminalFilter.vue";
+import AnimalFilter from "@/components/AninalFilter.vue";
 const currentPage = ref(1)
 const query = defineModel()
 const species = ref('')
@@ -120,7 +120,7 @@ const filteredAnimals = computed(() => {
 <template>
   <section class="my-10 w-f">
     <fwb-heading class="text-center" tag="h2">Toutes les bêtes</fwb-heading>
-    <aminal-filter
+    <AnimalFilter
         v-model:species="species"
         v-model:race="race"
         v-model:query="query"
