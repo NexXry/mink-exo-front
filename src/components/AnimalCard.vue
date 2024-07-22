@@ -10,12 +10,14 @@ const props = defineProps({
   species: String,
   race: String,
 })
+
+const imageRoot = import.meta.env.VITE_IMAGES_API_URL;
 </script>
 
 <template>
   <fwb-card
       img-alt="Desk"
-      :img-src="image"
+      :img-src="imageRoot + image"
       variant="image"
   >
     <div class="p-5">

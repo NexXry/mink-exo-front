@@ -1,5 +1,12 @@
 <script setup>
 import {FwbNavbar, FwbNavbarCollapse, FwbNavbarLink} from "flowbite-vue";
+import {ref} from "vue";
+import {getState, subscribe} from "@/Store/store.js";
+
+const token = ref(getState().token);
+subscribe((state) => {
+  token.value = state.token;
+});
 </script>
 
 <template>
@@ -19,6 +26,16 @@ import {FwbNavbar, FwbNavbarCollapse, FwbNavbarLink} from "flowbite-vue";
         <fwb-navbar-link>
           <RouterLink class="text-xl hover:text-green-500" active-class="text-green-500" to="/contact">
             Contact
+          </RouterLink>
+        </fwb-navbar-link>
+        <fwb-navbar-link v-if="token">
+          <RouterLink class="text-xl hover:text-green-500" active-class="text-green-500" to="/backoffice">
+            Backoffice
+          </RouterLink>
+        </fwb-navbar-link>
+        <fwb-navbar-link v-if="token">
+          <RouterLink class="text-xl hover:text-green-500" to="/logout">
+            Logout
           </RouterLink>
         </fwb-navbar-link>
       </fwb-navbar-collapse>

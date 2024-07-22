@@ -32,5 +32,9 @@ export default {
     async remove(entity, token) {
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`
         return api.delete(entity)
-    }
+    },
+
+    async login(data) {
+        return api.post(import.meta.env.VITE_API_AUTH_URL, data)
+    },
 }
