@@ -3,6 +3,7 @@ import {inject, onMounted, reactive, ref, watch} from 'vue';
 import api from '@/Api/api.js';
 import {FwbButton, FwbInput, FwbSelect, FwbTextarea} from "flowbite-vue";
 import {getState} from "@/Store/store.js";
+import ImagesModal from "@/components/Backoffice/Images/ImagesModal.vue";
 
 const animals = inject('animals');
 const form = reactive({...animals.value});
@@ -141,4 +142,5 @@ watch(() => {
       <fwb-button type="submit" class="bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded">{{ isEdit ? 'Modifier' : 'Enregistrer' }}</fwb-button>
     </div>
   </form>
+  <images-modal/>
 </template>
