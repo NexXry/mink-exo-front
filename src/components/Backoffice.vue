@@ -1,10 +1,13 @@
 <script setup>
-
+import Tabs from "@/components/Tabs.vue";
 </script>
 
 <template>
-  <div>
-    <h1>Backoffice</h1>
+  <div class="flex flex-col items-center">
+    <h1 class="text-2xl">Backoffice</h1>
+    <div class="w-full">
+      <tabs/>
+    </div>
   </div>
 </template>
 
