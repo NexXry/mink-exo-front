@@ -4,13 +4,13 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
         'Accept': 'application/ld+json',
+        'Content-type': 'application/ld+json',
     }
 })
 
 export default {
     async get(entity, isAdmin = false, token = "") {
-        if (isAdmin) {
-            token = token ? token : localStorage.getItem('toke n')
+        if (isAdmin && token) {
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`
             return api.get(entity)
         }

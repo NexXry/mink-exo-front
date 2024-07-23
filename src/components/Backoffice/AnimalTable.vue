@@ -1,56 +1,50 @@
 <script setup>
 import {FwbA, FwbTable, FwbTableBody, FwbTableCell, FwbTableHead, FwbTableHeadCell, FwbTableRow} from "flowbite-vue";
+import {onMounted, ref} from "vue";
+import api from "@/Api/api.js";
+import {getState} from "@/Store/store.js";
+
+const animals = ref([])
+
+onMounted(()=>{
+  const token = getState().token
+  if (token){
+    api.get('animals',true,token).then((res)=>{
+      if (res.data['hydra:member']){
+        animals.value = res.data['hydra:member']
+      }
+    })
+  }
+})
 </script>
 
 <template>
   <fwb-table>
     <fwb-table-head>
       <fwb-table-head-cell>Nom</fwb-table-head-cell>
-      <fwb-table-head-cell>Color</fwb-table-head-cell>
-      <fwb-table-head-cell>Category</fwb-table-head-cell>
-      <fwb-table-head-cell>Price</fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <span class="sr-only">Edit</span>
-      </fwb-table-head-cell>
+      <fwb-table-head-cell>Age</fwb-table-head-cell>
+      <fwb-table-head-cell>Prix HT / Prix TTC</fwb-table-head-cell>
+      <fwb-table-head-cell>Description</fwb-table-head-cell>
+      <fwb-table-head-cell>Espèce</fwb-table-head-cell>
+      <fwb-table-head-cell>Race</fwb-table-head-cell>
+      <fwb-table-head-cell>Status</fwb-table-head-cell>
+      <fwb-table-head-cell/>
     </fwb-table-head>
     <fwb-table-body>
-      <fwb-table-row>
-        <fwb-table-cell>Apple MacBook Pro 17"</fwb-table-cell>
-        <fwb-table-cell>Sliver</fwb-table-cell>
-        <fwb-table-cell>Laptop</fwb-table-cell>
-        <fwb-table-cell>$2999</fwb-table-cell>
+      <fwb-table-row v-for="animal in animals">
+        <fwb-table-cell>{{animal.name}}</fwb-table-cell>
+        <fwb-table-cell>{{animal.age}}</fwb-table-cell>
+        <fwb-table-cell>{{ animal.priceHT }}€ / {{ animal.priceTTC }}€</fwb-table-cell>
+        <fwb-table-cell>{{ animal.description }}</fwb-table-cell>
+        <fwb-table-cell>{{ animal.species.name }}</fwb-table-cell>
+        <fwb-table-cell>{{ animal.race.name }}</fwb-table-cell>
+        <fwb-table-cell>{{ animal.status }}</fwb-table-cell>
         <fwb-table-cell>
           <fwb-a href="#">
-            Edit
-          </fwb-a>
-        </fwb-table-cell>
-      </fwb-table-row>
-      <fwb-table-row>
-        <fwb-table-cell>Microsoft Surface Pro</fwb-table-cell>
-        <fwb-table-cell>White</fwb-table-cell>
-        <fwb-table-cell>Laptop PC</fwb-table-cell>
-        <fwb-table-cell>$1999</fwb-table-cell>
-        <fwb-table-cell>
-          <fwb-a href="#">
-            Edit
-          </fwb-a>
-        </fwb-table-cell>
-      </fwb-table-row>
-      <fwb-table-row>
-        <fwb-table-cell>Magic Mouse 2</fwb-table-cell>
-        <fwb-table-cell>Black</fwb-table-cell>
-        <fwb-table-cell>Accessories</fwb-table-cell>
-        <fwb-table-cell>$99</fwb-table-cell>
-        <fwb-table-cell>
-          <fwb-a href="#">
-            Edit
+            Modifier
           </fwb-a>
         </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>
   </fwb-table>
 </template>
-
-<style scoped>
-
-</style>
