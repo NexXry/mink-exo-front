@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue';
+import {inject, onMounted, reactive, ref, watch} from 'vue';
 import api from '@/Api/api.js';
 import {FwbButton, FwbInput, FwbSelect, FwbTextarea} from "flowbite-vue";
 import {getState} from "@/Store/store.js";
@@ -15,7 +15,7 @@ const props = defineProps({
       priceTTC: null,
       species: '',
       race: '',
-      status: 'NOT_READY',
+      status: '',
     })
   },
   isEdit: {
@@ -32,6 +32,9 @@ const statusData = [
   {'value':'en vente', 'name':'en vente'},
   {'value':'VENDU', 'name':'VENDU'}
 ]
+
+const editableAnimal = inject('editableAnimal');
+const isEdit = inject('isEdit');
 
 onMounted(()=>{
   api.get('species').then((res) =>{
@@ -56,6 +59,33 @@ const handleSubmit = async () => {
     }
   }
 };
+
+const handleRest = () => {
+  form.name = '';
+  form.age = null;
+  form.description = '';
+  form.priceHT = null;
+  form.priceTTC = null;
+  form.species = '';
+  form.race = '';
+  form.status = '';
+  editableAnimal.value = { ...form };
+  isEdit.value = false;
+};
+
+watch(()=>{
+  if (isEdit.value){
+    form.name = editableAnimal.value.name;
+    form.age = editableAnimal.value.age;
+    form.description = editableAnimal.value.description;
+    form.priceHT = editableAnimal.value.priceHT;
+    form.priceTTC = editableAnimal.value.priceTTC;
+    form.species = editableAnimal.value.species
+    form.race = editableAnimal.value.race
+    form.status = editableAnimal.value.status
+    display.value = true;
+  }
+}, ()=>{}, {immediate: true})
 </script>
 
 <template>
@@ -90,6 +120,7 @@ const handleSubmit = async () => {
         <fwb-select
             v-model="form.species"
             :options="speciesData"
+            :model-value="form.species"
             label="Choisir une espèce"
         />
       </div>
@@ -97,6 +128,7 @@ const handleSubmit = async () => {
         <fwb-select
             v-model="form.race"
             :options="raceData"
+            :model-value="form.race"
             label="Choisir une race"
         />
       </div>
@@ -108,7 +140,8 @@ const handleSubmit = async () => {
                     class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
       </div>
     <div class="flex justify-center items-center gap-6 flex-wrap">
-      <fwb-button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Enregistrer</fwb-button>
+      <fwb-button @click="handleRest" v-if="isEdit" type="submit" class="bg-red-500 text-white py-2 px-4 rounded">Annuler</fwb-button>
+      <fwb-button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">{{isEdit ? 'Modifier' : 'Enregistrer'}}</fwb-button>
     </div>
   </form>
 </template>

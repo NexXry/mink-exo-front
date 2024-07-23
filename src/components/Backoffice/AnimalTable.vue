@@ -1,10 +1,12 @@
 <script setup>
-import {FwbA, FwbTable, FwbTableBody, FwbTableCell, FwbTableHead, FwbTableHeadCell, FwbTableRow} from "flowbite-vue";
-import {onMounted, ref} from "vue";
+import {FwbA, FwbButton, FwbTable, FwbTableBody, FwbTableCell, FwbTableHead, FwbTableHeadCell, FwbTableRow} from "flowbite-vue";
+import {inject, onMounted, ref} from "vue";
 import api from "@/Api/api.js";
 import {getState} from "@/Store/store.js";
 
 const animals = ref([])
+const editableAnimal = inject('editableAnimal');
+const isEdit = inject('isEdit');
 
 onMounted(()=>{
   const token = getState().token
@@ -16,6 +18,11 @@ onMounted(()=>{
     })
   }
 })
+
+const handleEdit = (animal)=>{
+  editableAnimal.value = { ...animal };
+  isEdit.value = true;
+}
 </script>
 
 <template>
@@ -40,9 +47,9 @@ onMounted(()=>{
         <fwb-table-cell>{{ animal.race.name }}</fwb-table-cell>
         <fwb-table-cell>{{ animal.status }}</fwb-table-cell>
         <fwb-table-cell>
-          <fwb-a href="#">
+          <fwb-button color="alternative" class="hover:text-green-500" @click="handleEdit(animal)">
             Modifier
-          </fwb-a>
+          </fwb-button>
         </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>

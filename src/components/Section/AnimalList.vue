@@ -76,7 +76,7 @@ const filteredAnimals = computed(() => {
       <AnimalCard
           v-for="animal in filteredAnimals"
           :key="animal.id"
-          :image="animal.images[0].filePath"
+          :image="animal.images[0]?.filePath"
           :name="animal.name"
           :description="animal.description"
           :age="animal.age"

@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {provide, ref} from 'vue'
 import {FwbTab, FwbTabs} from 'flowbite-vue'
 import AnimalTable from "@/components/Backoffice/AnimalTable.vue";
 import SpeciesTable from "@/components/Backoffice/SpeciesTable.vue";
@@ -7,6 +7,20 @@ import RaceTable from "@/components/Backoffice/RaceTable.vue";
 import AnimalForm from "@/components/Backoffice/Form/AnimalForm.vue";
 
 const activeTab = ref('animal')
+const editableAnimal = ref({
+  name: '',
+  age: null,
+  description: '',
+  priceHT: null,
+  priceTTC: null,
+  species: '',
+  race: '',
+  status: '',
+});
+const isEdit = ref(false);
+
+provide('editableAnimal', editableAnimal);
+provide('isEdit', isEdit);
 </script>
 
 <template>
