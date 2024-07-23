@@ -7,7 +7,9 @@ import RaceTable from "@/components/Backoffice/RaceTable.vue";
 import AnimalForm from "@/components/Backoffice/Form/AnimalForm.vue";
 
 const activeTab = ref('animal')
+const animals = ref([])
 const editableAnimal = ref({
+  id: '',
   name: '',
   age: null,
   description: '',
@@ -21,6 +23,7 @@ const isEdit = ref(false);
 
 provide('editableAnimal', editableAnimal);
 provide('isEdit', isEdit);
+provide('animals', animals);
 </script>
 
 <template>

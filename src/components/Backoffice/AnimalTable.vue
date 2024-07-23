@@ -4,7 +4,7 @@ import {inject, onMounted, ref} from "vue";
 import api from "@/Api/api.js";
 import {getState} from "@/Store/store.js";
 
-const animals = ref([])
+const animals = inject('animals');
 const editableAnimal = inject('editableAnimal');
 const isEdit = inject('isEdit');
 
@@ -23,11 +23,21 @@ const handleEdit = (animal)=>{
   editableAnimal.value = { ...animal };
   isEdit.value = true;
 }
+
+const handleDelete = async (id)=>{
+  const token = getState().token
+  if (token){
+    await api.remove(`/animals/${id}`,token).then(()=>{
+      animals.value = animals.value.filter((animal)=> animal.id !== id)
+    })
+  }
+}
 </script>
 
 <template>
   <fwb-table>
     <fwb-table-head>
+      <fwb-table-head-cell>ID</fwb-table-head-cell>
       <fwb-table-head-cell>Nom</fwb-table-head-cell>
       <fwb-table-head-cell>Age</fwb-table-head-cell>
       <fwb-table-head-cell>Prix HT / Prix TTC</fwb-table-head-cell>
@@ -39,6 +49,7 @@ const handleEdit = (animal)=>{
     </fwb-table-head>
     <fwb-table-body>
       <fwb-table-row v-for="animal in animals">
+        <fwb-table-cell>{{animal.id}}</fwb-table-cell>
         <fwb-table-cell>{{animal.name}}</fwb-table-cell>
         <fwb-table-cell>{{animal.age}}</fwb-table-cell>
         <fwb-table-cell>{{ animal.priceHT }}€ / {{ animal.priceTTC }}€</fwb-table-cell>
@@ -46,9 +57,12 @@ const handleEdit = (animal)=>{
         <fwb-table-cell>{{ animal.species.name }}</fwb-table-cell>
         <fwb-table-cell>{{ animal.race.name }}</fwb-table-cell>
         <fwb-table-cell>{{ animal.status }}</fwb-table-cell>
-        <fwb-table-cell>
+        <fwb-table-cell class="flex flex-col gap-3">
           <fwb-button color="alternative" class="hover:text-green-500" @click="handleEdit(animal)">
             Modifier
+          </fwb-button>
+          <fwb-button color="red"  @click="handleDelete(animal.id)">
+            supprimer
           </fwb-button>
         </fwb-table-cell>
       </fwb-table-row>
