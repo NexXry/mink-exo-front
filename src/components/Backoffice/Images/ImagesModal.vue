@@ -40,6 +40,13 @@ const getAllImages = () => {
 onMounted(() => {
   getAllImages();
 });
+
+const removeImage = (id) => {
+  const token = getState().token
+  api.remove(`/images/${id}`, token).then(() => {
+    getAllImages();
+  })
+};
 </script>
 
 <template>
@@ -56,8 +63,13 @@ onMounted(() => {
           Fichier: {{ imageFile ? imageFile.name : 'aucun fichier choisi' }}
         </p>
         <div class="flex flex-wrap gap-4 mt-4">
-          <div v-for="image in images" :key="image.id">
-            <img :src="imgDir+ image.filePath" alt="image" class="w-20 h-20 object-cover"/>
+          <div class="flex flex-wrap gap-6" v-for="image in images" :key="image.id">
+            <div class="flex flex-col items-center gap-6">
+              <img :src="imgDir+ image.filePath" alt="image" class="w-20 h-20 object-cover"/>
+              <fwb-button @click="removeImage(image.id)" color="red">
+                Supprimer
+              </fwb-button>
+            </div>
           </div>
         </div>
       </template>
