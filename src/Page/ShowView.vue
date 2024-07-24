@@ -1,9 +1,32 @@
 <script setup>
 import {useRoute} from "vue-router";
+import api from "@/Api/api.js";
+import {onMounted, ref} from "vue";
+import {FwbCarousel} from "flowbite-vue";
 
 const route = useRoute();
 const id = route.params.id;
-console.log(id);
+const animal = ref(null);
+const animalImages = ref([]);
+
+const imageRoute = import.meta.env.VITE_IMAGES_API_URL;
+
+const getAnimal = async () => {
+  const response = await api.get(`/animals/${id}`);
+  animal.value = response.data;
+  animalImages.value = response.data.images.map((image) => {
+    return {
+      src: imageRoute + image,
+      alt: animal.value.name,
+    };
+  });
+  console.log(animalImages.value);
+}
+
+onMounted(() => {
+  getAnimal();
+})
+
 </script>
 
 <template>
@@ -11,8 +34,7 @@ console.log(id);
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
       <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
         <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-          <img class="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt=""/>
-          <img class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt=""/>
+          <fwb-carousel :pictures="animalImages.value"/>
         </div>
 
         <div class="mt-6 sm:mt-8 lg:mt-0">
