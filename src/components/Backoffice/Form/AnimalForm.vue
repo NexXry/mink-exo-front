@@ -21,7 +21,7 @@ const isEdit = inject('isEdit');
 onMounted(() => {
   api.get('species').then((res) => {
     speciesData.value = res.data['hydra:member'].map((res) => {
-      return {'value': `/api/species/${res.name}`, 'name': res.name}
+      return {'value': `/api/species/${res.id}`, 'name': res.name}
     })
   })
   api.get('races').then((res) => {
@@ -48,7 +48,8 @@ const handleSubmit = async () => {
         handleRest();
       });
     } else {
-      await api.post('/animals', form, token);
+      const addedAnimal = await api.post('/animals', form, token);
+      animals.value.push(addedAnimal.data);
     }
   }
 };

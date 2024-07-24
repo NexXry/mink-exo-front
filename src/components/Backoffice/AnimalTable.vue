@@ -35,7 +35,8 @@ const handleDelete = async (id) => {
   }
 }
 
-const toggleModal = () => {
+const toggleModal = (id) => {
+  animalId.value = id;
   isShowModal.value = !isShowModal.value;
 }
 </script>
@@ -70,10 +71,10 @@ const toggleModal = () => {
           <fwb-button color="red" @click="handleDelete(animal.id)">
             supprimer
           </fwb-button>
-          <fwb-button @click="toggleModal" color="yellow">Images</fwb-button>
-          <images-modal :id="animal.id"/>
+          <fwb-button @click="toggleModal(animal.id)" color="yellow">Images</fwb-button>
         </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>
   </fwb-table>
+  <images-modal v-if="isShowModal"/>
 </template>

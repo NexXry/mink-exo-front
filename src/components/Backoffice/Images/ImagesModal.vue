@@ -7,13 +7,8 @@ import {getState} from "@/Store/store.js";
 const showModal = inject('showModal');
 const imageFile = ref(null);
 const images = ref([]);
-
-const animal = defineProps({
-  id: {
-    type: Number,
-    required: true
-  }
-});
+const imgDir = import.meta.env.VITE_IMAGES_API_URL;
+const animalId = inject('animalId');
 const closeModal = () => {
   showModal.value = false;
 };
@@ -24,14 +19,13 @@ const handleImageUpload = (event) => {
 };
 
 const confirmUpload = () => {
-  console.log(animal.id)
   closeModal();
 };
 
 const getAllImages = () => {
   const token = getState().token
   api.get('images', token).then((res) => {
-    images.value = res.data['hydra:member'].filter((image) => image.animal.id === animal.id)
+    images.value = res.data['hydra:member'].filter((image) => image.animal.id === animalId.value)
   })
 };
 
@@ -55,7 +49,7 @@ onMounted(() => {
         </p>
         <div class="flex flex-wrap gap-4 mt-4">
           <div v-for="image in images" :key="image.id">
-            <img :src="image.file" alt="image" class="w-20 h-20 object-cover"/>
+            <img :src="imgDir+ image.filePath" alt="image" class="w-20 h-20 object-cover"/>
           </div>
         </div>
       </template>
