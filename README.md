@@ -1,5 +1,7 @@
 # Installation
 
+Temps passé : 2 jours à temps plein
+
 ## Prérequis
 
 - [Node.js](https://nodejs.org/en/)
