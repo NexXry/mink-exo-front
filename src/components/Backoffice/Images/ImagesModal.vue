@@ -21,7 +21,7 @@ const confirmUpload = () => {
   const token = getState().token
   let data = new FormData();
   data.append('animal', '/api/animals/' + animalId.value);
-  data.append('file', imageFile.value);
+  data.append('imageFile', imageFile.value);
   data.append('name', 'image');
   api.post('images', data, token).then((res) => {
     console.log(res)
