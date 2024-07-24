@@ -6,7 +6,7 @@
 - [Git](https://git-scm.com/)
 
 
-- Cloner le projet
+- Cloner le projet et se rendre dans la branche `main`
 - Installer les dépendances avec la commande `npm install`
 - Démarrer le site avec la commande `npm run dev`
 - Ouvrir le navigateur à l'adresse `http://localhost:5173`
