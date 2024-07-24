@@ -38,9 +38,14 @@ onMounted(() => {
           <AnimalCarousel/>
         </div>
         <div class="mt-6 sm:mt-8 lg:mt-0">
-          <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl ">
-            {{ animal.name }}
-          </h1>
+          <div class="flex items-center gap-6 flex-wrap">
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl ">
+              {{ animal.name }}
+            </h1>
+            <RouterLink to="/contact">
+              <fwb-badge class="px-5 py-2  w-fit" size="xs" type="yellow">Contactez nous !</fwb-badge>
+            </RouterLink>
+          </div>
           <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
             <p
                 class="text-2xl font-extrabold text-gray-900 sm:text-3xl "

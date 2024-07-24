@@ -57,7 +57,8 @@ const filteredAnimals = computed(() => {
     const matchesRace = race.value ? animal.race.name.includes(race.value) : true;
     const matchesNameQuery = query.value ? animal.name.toLowerCase().includes(query.value.toLowerCase()) : true;
     const matchesDescQuery = query.value ? animal.description.toLowerCase().includes(query.value.toLowerCase()) : true;
-    return matchesSpecies && matchesRace && matchesNameQuery || matchesDescQuery;
+    
+    return matchesSpecies && matchesRace && (matchesNameQuery || matchesDescQuery);
   });
 });
 </script>
