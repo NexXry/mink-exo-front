@@ -15,10 +15,18 @@ const closeModal = () => {
 
 const handleImageUpload = (event) => {
   imageFile.value = event.target.files[0];
-  console.log(imageFile.value)
 };
 
 const confirmUpload = () => {
+  const token = getState().token
+  let data = new FormData();
+  data.append('animal', '/api/animals/' + animalId.value);
+  data.append('file', imageFile.value);
+  data.append('name', 'image');
+  api.post('images', data, token).then((res) => {
+    console.log(res)
+    getAllImages();
+  });
   closeModal();
 };
 
