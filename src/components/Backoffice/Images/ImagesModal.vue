@@ -24,10 +24,8 @@ const confirmUpload = () => {
   data.append('imageFile', imageFile.value);
   data.append('name', 'image');
   api.post('images', data, token).then((res) => {
-    console.log(res)
     getAllImages();
   });
-  closeModal();
 };
 
 const getAllImages = () => {
@@ -79,7 +77,7 @@ const removeImage = (id) => {
             Cancel
           </fwb-button>
           <fwb-button @click="confirmUpload" color="green">
-            Sauvegarder
+            Envoyer
           </fwb-button>
         </div>
       </template>

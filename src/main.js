@@ -9,10 +9,12 @@ import Vue3Toasity from 'vue3-toastify';
 import LoginView from "@/Page/LoginView.vue";
 import BackofficeView from "@/Page/BackofficeView.vue";
 import {getState, setState} from "@/Store/store.js";
+import ShowView from "@/Page/ShowView.vue";
 
 const routes = [
     {path: '/', component: HomeView, name: 'home'},
     {path: '/contact', component: ContactView, name: 'contact'},
+    {path: '/animal/:id', component: ShowView, name: 'show'},
     {path: '/auth', component: LoginView, name: 'login'},
     {
         path: '/backoffice', component: BackofficeView, name: 'backoffice', beforeEnter: (to, from) => {
