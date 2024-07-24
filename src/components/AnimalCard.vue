@@ -1,5 +1,5 @@
 <script setup>
-import {FwbBadge, FwbButton, FwbCard} from "flowbite-vue";
+import {FwbBadge, FwbButton, FwbCard, FwbImg} from "flowbite-vue";
 
 const props = defineProps({
   name: String,
@@ -15,12 +15,13 @@ const imageRoot = import.meta.env.VITE_IMAGES_API_URL;
 </script>
 
 <template>
-  <fwb-card
-      img-alt="Desk"
-      :img-src="imageRoot + image"
-      variant="image"
-  >
+  <fwb-card>
     <div class="p-5">
+      <fwb-img
+          alt=""
+          :src="imageRoot + image"
+          class="h-48 object-cover w-full md:w-96"
+      />
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {{ name }}
       </h5>
