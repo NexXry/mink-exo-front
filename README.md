@@ -33,5 +33,5 @@
 # Contact
 
 - [Email](mailto:nicolas.castex.pro@gmail.com) : nicolas.castex.pro@gmail.com
-- [Telephone](tel:+336 78 23 64 60) : 06 78 23 64 60
+- [Telephone](tel:+33678236460) : 06 78 23 64 60
 
