@@ -6,10 +6,12 @@ import SpeciesTable from "@/components/Backoffice/SpeciesTable.vue";
 import RaceTable from "@/components/Backoffice/RaceTable.vue";
 import AnimalForm from "@/components/Backoffice/Form/AnimalForm.vue";
 import SpeciesForm from "@/components/Backoffice/Form/SpeciesForm.vue";
+import RaceForm from "@/components/Backoffice/Form/RaceForm.vue";
 
 const activeTab = ref('animal')
 const animals = ref([])
 const speciesData = ref([])
+const raceData = ref([])
 const animalId = ref(0)
 const showModal = ref(false);
 
@@ -28,14 +30,20 @@ const editableSpecies = ref({
   id: '',
   name: '',
 });
+const editableRace = ref({
+  id: '',
+  name: '',
+});
 
 const isEdit = ref(false);
 
 provide('editableAnimal', editableAnimal);
 provide('editableSpecies', editableSpecies);
+provide('editableRace', editableRace);
 provide('isEdit', isEdit);
 provide('animals', animals);
 provide('speciesData', speciesData);
+provide('raceData', raceData);
 provide('showModal', showModal);
 provide('animalId', animalId);
 </script>
@@ -54,6 +62,7 @@ provide('animalId', animalId);
       <SpeciesTable/>
     </fwb-tab>
     <fwb-tab name="race" title="Race">
+      <RaceForm/>
       <RaceTable/>
     </fwb-tab>
   </fwb-tabs>

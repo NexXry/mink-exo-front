@@ -1,53 +1,57 @@
 <script setup>
-import {FwbA, FwbTable, FwbTableBody, FwbTableCell, FwbTableHead, FwbTableHeadCell, FwbTableRow} from "flowbite-vue";
+import {FwbButton, FwbTable, FwbTableBody, FwbTableCell, FwbTableHead, FwbTableHeadCell, FwbTableRow} from "flowbite-vue";
+import {inject, onMounted} from "vue";
+import api from "@/Api/api.js";
+import {getState} from "@/Store/store.js";
+
+const editableRace = inject('editableRace');
+const raceData = inject('raceData');
+const isEdit = inject('isEdit');
+
+const getSpecies = () => {
+  api.get('races').then((res) => {
+    raceData.value = res.data['hydra:member'];
+  })
+}
+
+onMounted(() => {
+  getSpecies();
+})
+
+const handleEdit = (race) => {
+  editableRace.value = {...race};
+  isEdit.value = true;
+}
+
+const handleDelete = async (id) => {
+  const token = getState().token
+  await api.remove(`/races/${id}`, token).then(() => {
+    raceData.value = raceData.value.filter((race) => race.id !== id)
+  })
+}
 </script>
 
 <template>
-  <h2 class="text-xl text-center mb-4">Race</h2>
-  <fwb-table>
+  <fwb-table class="w-10/12 mx-auto">
     <fwb-table-head>
-      <fwb-table-head-cell>Product name</fwb-table-head-cell>
-      <fwb-table-head-cell>Color</fwb-table-head-cell>
-      <fwb-table-head-cell>Category</fwb-table-head-cell>
-      <fwb-table-head-cell>Price</fwb-table-head-cell>
-      <fwb-table-head-cell>
-        <span class="sr-only">Edit</span>
-      </fwb-table-head-cell>
+      <fwb-table-head-cell>ID</fwb-table-head-cell>
+      <fwb-table-head-cell>Nom</fwb-table-head-cell>
+      <fwb-table-head-cell/>
     </fwb-table-head>
     <fwb-table-body>
-      <fwb-table-row>
-        <fwb-table-cell>Apple MacBook Pro 17"</fwb-table-cell>
-        <fwb-table-cell>Sliver</fwb-table-cell>
-        <fwb-table-cell>Laptop</fwb-table-cell>
-        <fwb-table-cell>$2999</fwb-table-cell>
-        <fwb-table-cell>
-          <fwb-a href="#">
-            Edit
-          </fwb-a>
+      <fwb-table-row v-for="race in raceData">
+        <fwb-table-cell>{{ race.id }}</fwb-table-cell>
+        <fwb-table-cell>{{ race.name }}</fwb-table-cell>
+        <fwb-table-cell class="flex flex-col items-end gap-3">
+          <fwb-button color="alternative" class="hover:text-green-500 w-fit" @click="handleEdit(race)">
+            Modifier
+          </fwb-button>
+          <fwb-button color="red" class="w-fit" @click="handleDelete(race.id)">
+            supprimer
+          </fwb-button>
         </fwb-table-cell>
       </fwb-table-row>
-      <fwb-table-row>
-        <fwb-table-cell>Microsoft Surface Pro</fwb-table-cell>
-        <fwb-table-cell>White</fwb-table-cell>
-        <fwb-table-cell>Laptop PC</fwb-table-cell>
-        <fwb-table-cell>$1999</fwb-table-cell>
-        <fwb-table-cell>
-          <fwb-a href="#">
-            Edit
-          </fwb-a>
-        </fwb-table-cell>
-      </fwb-table-row>
-      <fwb-table-row>
-        <fwb-table-cell>Magic Mouse 2</fwb-table-cell>
-        <fwb-table-cell>Black</fwb-table-cell>
-        <fwb-table-cell>Accessories</fwb-table-cell>
-        <fwb-table-cell>$99</fwb-table-cell>
-        <fwb-table-cell>
-          <fwb-a href="#">
-            Edit
-          </fwb-a>
-        </fwb-table-cell>
-      </fwb-table-row>
+
     </fwb-table-body>
   </fwb-table>
 </template>
