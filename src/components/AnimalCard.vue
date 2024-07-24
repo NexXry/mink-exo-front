@@ -2,6 +2,7 @@
 import {FwbBadge, FwbButton, FwbCard, FwbImg} from "flowbite-vue";
 
 const props = defineProps({
+  id: Number,
   name: String,
   image: String,
   description: String,
@@ -12,6 +13,8 @@ const props = defineProps({
 })
 
 const imageRoot = import.meta.env.VITE_IMAGES_API_URL;
+const animalShow = `/animal/${props.id}`
+
 </script>
 
 <template>
@@ -20,7 +23,7 @@ const imageRoot = import.meta.env.VITE_IMAGES_API_URL;
       <fwb-img
           alt=""
           :src="imageRoot + image"
-          class="h-48 object-cover w-full md:w-96"
+          class="h-[350px] object-cover w-full md:w-96"
       />
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {{ name }}
@@ -39,7 +42,9 @@ const imageRoot = import.meta.env.VITE_IMAGES_API_URL;
           <fwb-badge class="px-5" size="sm" type="yellow">Contactez nous !</fwb-badge>
         </RouterLink>
       </div>
-      <fwb-button class="w-full" size="xl" color="green">Voir plus</fwb-button>
+      <RouterLink :to="animalShow">
+        <fwb-button class="w-full" size="xl" color="green">Voir plus</fwb-button>
+      </RouterLink>
     </div>
   </fwb-card>
 </template>

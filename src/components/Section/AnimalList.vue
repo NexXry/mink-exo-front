@@ -44,7 +44,6 @@ const getData = async () => {
     toast.error('Une erreur est survenue')
     isLoading.value = false
     isError.value = true
-    console.error(error)
   }
 }
 
@@ -76,6 +75,7 @@ const filteredAnimals = computed(() => {
       <AnimalCard
           v-for="animal in filteredAnimals"
           :key="animal.id"
+          :id="animal.id"
           :image="animal.images[0]?.filePath"
           :name="animal.name"
           :description="animal.description"
