@@ -49,9 +49,9 @@ onMounted(() => {
             </p>
           </div>
           <div class="mt-5 flex flex-wrap justify-center md:justify-between gap-6 ">
-            <fwb-badge size="sm" type="green">{{ animal.age }} ans</fwb-badge>
-            <fwb-badge size="sm" type="green">{{ animal.species.name }}</fwb-badge>
-            <fwb-badge size="sm" type="green">{{ animal.race.name }}</fwb-badge>
+            <fwb-badge size="sm" type="green">{{ animal?.age }} ans</fwb-badge>
+            <fwb-badge size="sm" type="green">{{ animal?.species?.name }}</fwb-badge>
+            <fwb-badge size="sm" type="green">{{ animal?.race?.name }}</fwb-badge>
           </div>
           <hr class="my-6 md:my-8 border-gray-200 "/>
           <p class="mb-6 text-gray-500 ">
