@@ -8,6 +8,7 @@ import AnimalForm from "@/components/Backoffice/Form/AnimalForm.vue";
 
 const activeTab = ref('animal')
 const animals = ref([])
+const animalId = ref(0)
 const showModal = ref(false);
 
 const editableAnimal = ref({
@@ -27,6 +28,7 @@ provide('editableAnimal', editableAnimal);
 provide('isEdit', isEdit);
 provide('animals', animals);
 provide('showModal', showModal);
+provide('animalId', animalId);
 </script>
 
 <template>

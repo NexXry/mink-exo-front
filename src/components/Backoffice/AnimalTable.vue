@@ -3,8 +3,10 @@ import {FwbButton, FwbTable, FwbTableBody, FwbTableCell, FwbTableHead, FwbTableH
 import {inject, onMounted} from "vue";
 import api from "@/Api/api.js";
 import {getState} from "@/Store/store.js";
+import ImagesModal from "@/components/Backoffice/Images/ImagesModal.vue";
 
 const animals = inject('animals');
+const animalId = inject('animalId');
 const editableAnimal = inject('editableAnimal');
 const isEdit = inject('isEdit');
 const isShowModal = inject('showModal');
@@ -31,6 +33,10 @@ const handleDelete = async (id) => {
       animals.value = animals.value.filter((animal) => animal.id !== id)
     })
   }
+}
+
+const toggleModal = () => {
+  isShowModal.value = !isShowModal.value;
 }
 </script>
 
@@ -64,7 +70,8 @@ const handleDelete = async (id) => {
           <fwb-button color="red" @click="handleDelete(animal.id)">
             supprimer
           </fwb-button>
-          <fwb-button @click="isShowModal" color="yellow">Images</fwb-button>
+          <fwb-button @click="toggleModal" color="yellow">Images</fwb-button>
+          <images-modal :id="animal.id"/>
         </fwb-table-cell>
       </fwb-table-row>
     </fwb-table-body>
