@@ -3,6 +3,7 @@ import {inject, onMounted, reactive, ref, watch} from 'vue';
 import api from '@/Api/api.js';
 import {FwbButton, FwbInput, FwbSelect, FwbTextarea} from "flowbite-vue";
 import {getState} from "@/Store/store.js";
+import {toast} from "vue3-toastify";
 
 const animals = inject('animals');
 const form = reactive({...animals.value});
@@ -46,10 +47,12 @@ const handleSubmit = async () => {
 
         isEdit.value = false;
         handleRest();
+        toast.success('Animal modifié avec succès');
       });
     } else {
       const addedAnimal = await api.post('/animals', form, token);
       animals.value.push(addedAnimal.data);
+      toast.success('Animal ajouté avec succès');
     }
   }
 };
@@ -87,7 +90,9 @@ watch(() => {
 
 <template>
   <div class="flex justify-center items-center gap-6 flex-wrap">
-    <fwb-button @click="display = !display " class="bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded">{{ !display ? 'Ouvrir' : 'Fermer' }}</fwb-button>
+    <fwb-button @click="display = !display " class="bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded">
+      {{ !display ? 'Ouvrir' : 'Fermer' }}
+    </fwb-button>
   </div>
   <form v-if="display" @submit.prevent="handleSubmit" class="flex flex-col justify-center items-center gap-6 flex-wrap">
     <input v-model="form.id" type="hidden" id="id"/>
@@ -138,8 +143,12 @@ watch(() => {
                   class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"/>
     </div>
     <div class="flex justify-center items-center gap-6 flex-wrap">
-      <fwb-button @click="handleRest" v-if="isEdit" type="submit" class="bg-red-500 text-white py-2 px-4 rounded">Annuler</fwb-button>
-      <fwb-button type="submit" class="bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded">{{ isEdit ? 'Modifier' : 'Enregistrer' }}</fwb-button>
+      <fwb-button @click="handleRest" v-if="isEdit" type="submit" class="bg-red-500 text-white py-2 px-4 rounded">
+        Annuler
+      </fwb-button>
+      <fwb-button type="submit" class="bg-green-500 hover:bg-green-400 text-white py-2 px-4 rounded">
+        {{ isEdit ? 'Modifier' : 'Enregistrer' }}
+      </fwb-button>
     </div>
   </form>
 </template>
