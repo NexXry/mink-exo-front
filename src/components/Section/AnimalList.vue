@@ -40,11 +40,16 @@ const getData = async () => {
         'name': race.name
       }
     })
+    maxPrice.value = getMaxPrice()
   } catch (error) {
     toast.error('Une erreur est survenue')
     isLoading.value = false
     isError.value = true
   }
+}
+
+const getMaxPrice = () => {
+  return Math.max(...animals.value.map(animal => animal.priceTTC))
 }
 
 onMounted(() => {
