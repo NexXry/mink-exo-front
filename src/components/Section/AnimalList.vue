@@ -1,7 +1,7 @@
 <script setup>
 import {FwbAlert, FwbHeading, FwbSpinner} from "flowbite-vue";
 import api from "@/Api/api.js";
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, provide, ref} from "vue";
 import AnimalFilter from "@/components/AninalFilter.vue";
 import {toast} from "vue3-toastify";
 import AnimalCard from "@/components/AnimalCard.vue";
@@ -9,9 +9,10 @@ import AnimalCard from "@/components/AnimalCard.vue";
 const animals = ref([])
 const speciesData = ref([])
 const raceData = ref([])
-const query = ref('')
 const species = ref('')
 const race = ref('')
+const maxPrice = ref(0)
+const minPrice = ref(0)
 const isLoading = ref(true)
 const isError = ref(false)
 
@@ -25,7 +26,6 @@ const getData = async () => {
       toast.error('Une erreur est survenue')
       return []
     }
-
     isLoading.value = false
     animals.value = animalsData.data["hydra:member"]
     speciesData.value = species.data["hydra:member"].map((specie) => {
@@ -40,6 +40,7 @@ const getData = async () => {
         'name': race.name
       }
     })
+    maxPrice.value = getMaxPrice()
   } catch (error) {
     toast.error('Une erreur est survenue')
     isLoading.value = false
@@ -47,20 +48,44 @@ const getData = async () => {
   }
 }
 
+const getMaxPrice = () => {
+  return Math.max(...animals.value.map(animal => animal.priceTTC))
+}
+
 onMounted(() => {
   getData()
 })
 
 const filteredAnimals = computed(() => {
+  if (!animals.value) {
+    return []
+  }
+
   return animals.value.filter(animal => {
     const matchesSpecies = species.value ? animal.species.name.includes(species.value) : true;
     const matchesRace = race.value ? animal.race.name.includes(race.value) : true;
-    const matchesNameQuery = query.value ? animal.name.toLowerCase().includes(query.value.toLowerCase()) : true;
-    const matchesDescQuery = query.value ? animal.description.toLowerCase().includes(query.value.toLowerCase()) : true;
-    
-    return matchesSpecies && matchesRace && (matchesNameQuery || matchesDescQuery);
+    const matchesPrice = (minPrice.value && animal.priceTTC >= minPrice.value) || (maxPrice.value && animal.priceTTC <= maxPrice.value);
+    return matchesSpecies && matchesRace && matchesPrice;
   });
 });
+
+const handleSearch = async (value) => {
+  if (!value) {
+    const animalsData = await api.get('/animals')
+    animals.value = animalsData.data["hydra:member"]
+    return
+  }
+
+  const searchAnimal = await api.get('/search?q=' + value)
+  if (searchAnimal.status !== 200) {
+    toast.error('Une erreur est survenue')
+    return []
+  }
+
+  animals.value = searchAnimal.data
+}
+
+provide("handleSearch", handleSearch)
 </script>
 
 <template>
@@ -69,7 +94,8 @@ const filteredAnimals = computed(() => {
     <AnimalFilter
         v-model:species="species"
         v-model:race="race"
-        v-model:query="query"
+        v-model:min-price="minPrice"
+        v-model:max-price="maxPrice"
         :race-data="raceData"
         :species-data="speciesData"/>
     <div class="my-10 flex flex-wrap justify-center gap-6">

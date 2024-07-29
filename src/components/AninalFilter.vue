@@ -1,28 +1,37 @@
 <script setup>
 import {FwbButton, FwbInput, FwbSelect} from "flowbite-vue";
-import {ref, watch} from "vue";
+import {inject, ref, watch} from "vue";
+
 const props = defineProps({
-  query: String,
   speciesData: Array,
   raceData: Array,
   species: String,
-  race: String
+  race: String,
+  maxPrice: Number,
+  minPrice: Number
 });
 
-const emit = defineEmits(['update:species', 'update:race', 'update:query']);
+const emit = defineEmits(['update:species', 'update:race', 'update:minPrice', 'update:maxPrice']);
 
 const localSpecies = ref(props.species);
 const localRace = ref(props.race);
-const localQuery = ref(props.query);
+const query = ref('');
+const localMinPrice = ref(props.minPrice);
+const localMaxPrice = ref(props.maxPrice);
+const handleSearch = inject('handleSearch');
 
 watch(localSpecies, (newVal) => emit('update:species', newVal));
 watch(localRace, (newVal) => emit('update:race', newVal));
-watch(localQuery, (newVal) => emit('update:query', newVal));
+watch(query, (newVal) => handleSearch(newVal));
+watch(localMinPrice, (newVal) => emit('update:minPrice', parseInt(newVal)));
+watch(localMaxPrice, (newVal) => emit('update:maxPrice', parseInt(newVal)));
 
 const reset = () => {
   localSpecies.value = '';
   localRace.value = '';
-  localQuery.value = '';
+  query.value = '';
+  localMinPrice.value = 0;
+  localMaxPrice.value = 0;
 }
 </script>
 
@@ -39,8 +48,22 @@ const reset = () => {
           :options="raceData"
           placeholder="Race"
       />
+      <div class="flex flex-col gap-2">
+        <fwb-input
+            v-model="localMinPrice"
+            label="Prix min"
+            class="max-w-lg w-full"
+            type="number"
+        />
+        <fwb-input
+            v-model="localMaxPrice"
+            label="Prix max"
+            class="max-w-lg w-full"
+            type="number"
+        />
+      </div>
       <fwb-input
-          v-model="localQuery"
+          v-model="query"
           placeholder="Rechercher une bête"
           class="max-w-lg w-full"
           size="lg"
@@ -51,7 +74,7 @@ const reset = () => {
           </svg>
         </template>
         <template #suffix>
-          <fwb-button @click="reset" v-if="localQuery || localRace || localSpecies" type="button" color="red">Effacer</fwb-button>
+          <fwb-button @click="reset" v-if="query || localRace || localSpecies" type="button" color="red">Effacer</fwb-button>
         </template>
       </fwb-input>
     </div>
