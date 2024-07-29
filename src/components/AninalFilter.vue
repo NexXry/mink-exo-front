@@ -6,24 +6,32 @@ const props = defineProps({
   speciesData: Array,
   raceData: Array,
   species: String,
-  race: String
+  race: String,
+  maxPrice: Number,
+  minPrice: Number
 });
 
-const emit = defineEmits(['update:species', 'update:race', 'reset']);
+const emit = defineEmits(['update:species', 'update:race', 'update:minPrice', 'update:maxPrice']);
 
 const localSpecies = ref(props.species);
 const localRace = ref(props.race);
 const query = ref('');
+const localMinPrice = ref(props.minPrice);
+const localMaxPrice = ref(props.maxPrice);
 const handleSearch = inject('handleSearch');
 
 watch(localSpecies, (newVal) => emit('update:species', newVal));
 watch(localRace, (newVal) => emit('update:race', newVal));
 watch(query, (newVal) => handleSearch(newVal));
+watch(localMinPrice, (newVal) => emit('update:minPrice', parseInt(newVal)));
+watch(localMaxPrice, (newVal) => emit('update:maxPrice', parseInt(newVal)));
 
 const reset = () => {
   localSpecies.value = '';
   localRace.value = '';
   query.value = '';
+  localMinPrice.value = 0;
+  localMaxPrice.value = 0;
 }
 </script>
 
@@ -40,6 +48,18 @@ const reset = () => {
           :options="raceData"
           placeholder="Race"
       />
+      <div class="flex flex-col gap-2">
+        <fwb-input
+            v-model="localMinPrice"
+            label="Prix min"
+            class="max-w-lg w-full"
+        />
+        <fwb-input
+            v-model="localMaxPrice"
+            label="Prix max"
+            class="max-w-lg w-full"
+        />
+      </div>
       <fwb-input
           v-model="query"
           placeholder="Rechercher une bête"

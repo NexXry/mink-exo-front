@@ -6,13 +6,13 @@ import AnimalFilter from "@/components/AninalFilter.vue";
 import {toast} from "vue3-toastify";
 import AnimalCard from "@/components/AnimalCard.vue";
 
-localQuery
-
 const animals = ref([])
 const speciesData = ref([])
 const raceData = ref([])
 const species = ref('')
 const race = ref('')
+const maxPrice = ref(0)
+const minPrice = ref(0)
 const isLoading = ref(true)
 const isError = ref(false)
 
@@ -26,7 +26,6 @@ const getData = async () => {
       toast.error('Une erreur est survenue')
       return []
     }
-
     isLoading.value = false
     animals.value = animalsData.data["hydra:member"]
     speciesData.value = species.data["hydra:member"].map((specie) => {
@@ -53,7 +52,6 @@ onMounted(() => {
 })
 
 const filteredAnimals = computed(() => {
-
   if (!animals.value) {
     return []
   }
@@ -61,7 +59,8 @@ const filteredAnimals = computed(() => {
   return animals.value.filter(animal => {
     const matchesSpecies = species.value ? animal.species.name.includes(species.value) : true;
     const matchesRace = race.value ? animal.race.name.includes(race.value) : true;
-    return matchesSpecies && matchesRace;
+    const matchesPrice = (minPrice.value && animal.priceTTC >= minPrice.value) || (maxPrice.value && animal.priceTTC <= maxPrice.value);
+    return matchesSpecies && matchesRace && matchesPrice;
   });
 });
 
@@ -90,6 +89,8 @@ provide("handleSearch", handleSearch)
     <AnimalFilter
         v-model:species="species"
         v-model:race="race"
+        v-model:min-price="minPrice"
+        v-model:max-price="maxPrice"
         :race-data="raceData"
         :species-data="speciesData"/>
     <div class="my-10 flex flex-wrap justify-center gap-6">
