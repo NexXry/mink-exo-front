@@ -23,7 +23,7 @@ const animalShow = `/animal/${props.id}`
       <fwb-img
           alt=""
           :src="imageRoot + image"
-          class="h-[350px] object-cover w-full md:w-96"
+          class="object-cover w-full md:w-96 !h-[350px]"
       />
       <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {{ name }}
