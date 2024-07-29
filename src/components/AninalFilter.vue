@@ -53,11 +53,13 @@ const reset = () => {
             v-model="localMinPrice"
             label="Prix min"
             class="max-w-lg w-full"
+            type="number"
         />
         <fwb-input
             v-model="localMaxPrice"
             label="Prix max"
             class="max-w-lg w-full"
+            type="number"
         />
       </div>
       <fwb-input
